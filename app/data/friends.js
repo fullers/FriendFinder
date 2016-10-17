@@ -4,7 +4,7 @@ var friends = [{
 	routeName: 'yoda',
 	name: 'Yoda',
 	photo: 'http://www.sideshowtoy.com/photo.php?sku=400302',
-	scores: [5,1,4,4,5,1,2,5,4,1]
+	scores: ["5","1","4","4","5","1","2","5","4","1"]
 }, {
 	routeName: 'darthmaul',
 	name: 'Darth Maul',
