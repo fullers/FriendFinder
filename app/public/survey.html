@@ -183,11 +183,10 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h2 class="modal-title"><strong>Best Match</strong></h2>
+	        <h2 class="modal-title"></h2>
 	      </div>
 	      <div class="modal-body">
-	        <h2 id="matchName"></h2>
-	        <img id="matchImg" src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAc9AAAAJDkzYzdkNzk1LWJjZWItNDRjZC05ZjZkLTMwZmY4ZmNhNTdjMQ.jpg" alt="">
+	        
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -227,11 +226,16 @@
 		  })
 		  return isValid;
 		}
+ 		
+ 		function createProfile(name, photo, scores) {
+ 			this.name = name;
+ 			this.photo = photo;
+ 			this.scores = scores.map((s) => parseInt(s));
+ 		}
 
 		// If all required fields are filled
 		if (validateForm() == true)
 		{
-			
 			// Create an object for the user's data
 	    	var userData = {
 	    		name: $("#name").val(),
@@ -246,18 +250,24 @@
 	    	// AJAX post the data to the friends API. 
 	    	$.post(currentURL + "/api/friends", userData, function(data){
 
-	    		// Grab the result from the AJAX post so that the best match's name and photo are displayed.
-	    		$("#matchName").text(data.name);
-	    		$('#matchImg').attr("src", data.photo);
+	    		// // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+	    		// $("#matchName").text(data.name);
+	    		// $('#matchImg').attr("src", data.photo);
 
-		    	// Show the modal with the best match 
-		    	$("#resultsModal").modal('toggle');
+		    	// // Show the modal with the best match 
+		    	// $("#resultsModal").modal('toggle');
+		    	$('.modal-title').html('<strong>Best Match</strong>')
+		    	$('.modal-body').html( '<h2>'+data.name+'</h2>'+
+	        '<img id="matchImg" src="'+data.photo+'" alt="">');
+
+		    	$('#resultsModal').modal('toggle');
 
 	    	});
 		}
 		else
-		{
-			alert("Please fill out all fields before submitting!");
+		{	$('.modal-title').html('<strong>Missing Required Data:</strong>');
+			$('.modal-body').html("Please fill out all fields before submitting!");
+			$('#resultsModal').modal('toggle');
 		}
     	
     	return false;
