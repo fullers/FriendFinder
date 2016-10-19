@@ -1,6 +1,4 @@
 
-var totalDifference = 0;
-
 module.exports = function(app, friends) {
 
 // API GET Request - Allows user to view the 
@@ -26,47 +24,55 @@ app.get('/api/:friends?', function (req, res) {
 	};
  });
 
-
 // Create New Characters - takes in JSON input
-app.post('/api/friends', function(req, res){
+app.post('/api/friends', function(req, res) {
 
-		var bestMatch = {
-			name: "none",
-			image: "none",
-		};
+		  // currentUser is the user that filled out the survey
+      var currentUser = req.body;
 
-		var usrData 	= req.body;
-		var usrName 	= usrData.name;
-		var usrImage 	= usrData.image;
-		var usrScores 	= usrData.scores;
+      // compute best match from scores
+      var bestMatch = {};
 
-		var totalDifference = 0;
+      // For Loop to checked the scores array and based on the value text it converts the value to an integer
+      for(var i = 0; i < currentUser.scores.length; i++) {
+        if(currentUser.scores[i] == "1 (Strongly Disagree)") {
+          currentUser.scores[i] = 1;
+        } else if(currentUser.scores[i] == "5 (Strongly Agree)") {
+          currentUser.scores[i] = 5;
+        } else {
+          currentUser.scores[i] = parseInt(currentUser.scores[i]);
+        }
+      }
+      // compare the scores of currentUser with the scores of each friend stored in the friends object 
+      // and find the friend with the smallest difference when each set of scores is compared
 
-		//loop through the friends data array of objects to get each friends scores
-		for(var i = 0; i < [friends].length-1; i++){
-			console.log(friends[i].name);
-			totalDifference = 0;
+      var bestMatchIndex = 0;
+      var bestMatchDifference = 40;
 
-			//loop through that friends score and the users score and calculate the 
-			// absolute difference between the two and push that to the total difference variable set above
-			for(var j = 0; j < 10; j++){
-				// We calculate the difference between the scores and sum them into the totalDifference
-				totalDifference += Math.abs(parseInt(usrScores[j]) - parseInt(friends[i].scores[j]));
-				// If the sum of differences is less then the differences of the current "best match"
-				if (totalDifference <= bestMatch.friendDifference){
+      for(var i = 0; i < friends.length; i++) {
+        var totalDifference = 0;
 
-					// Reset the bestMatch to be the new friend. 
-					bestMatch.name = friends[i].name;
-					bestMatch.photo = friends[i].photo;
-					bestMatch.matchDifference = totalDifference;
-				}
-			}
-		}
+        for(var index = 0; index < friends[i].scores.length; index++) {
+          var differenceOneScore = Math.abs(friends[i].scores[index] - currentUser.scores[index]);
+          totalDifference += differenceOneScore;
+        }
 
-		friends.push(usrData);
- 
-		res.json(bestMatch);
+        // if the totalDifference in scores is less than the best match so far
+        // save that index and difference
+        if (totalDifference < bestMatchDifference) {
+          bestMatchIndex = i;
+          bestMatchDifference = totalDifference;
+        }
+      }
 
-	});
+      // the best match index is used to get the best match data from the friends index
+      bestMatch = friends[bestMatchIndex];
+
+      // Put new friend from survey in "database" array
+      friends.push(currentUser);
+
+      // return the best match friend
+      res.json(bestMatch);
+  });
 
 };
