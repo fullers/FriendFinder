@@ -48,7 +48,7 @@ If the person submits the survery with any missing inputs, a modal will display 
 
 ## Authors
 
-* **Shaun** - *Javascript, Node.js* - [Shaun](https://github.com/fullers)
+* **Shaun** - *Javascript, Node.js*
 
 ## License
    
