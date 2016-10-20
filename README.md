@@ -44,7 +44,7 @@ Fill out the survey and based on the scores for the questions, the application w
 
 If the person submits the survery with any missing inputs, a modal will display to show a message:  Please fill out all fields before submitting!
 
-![Alt Text](app/public/images/bestmatchmodal.png?raw=true "Best Match Modal")
+![Alt Text](app/public/images/emptydatamodal.png?raw=true "Best Match Modal")
 
 ## Authors
 
