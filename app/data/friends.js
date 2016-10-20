@@ -18,7 +18,7 @@ var friends = [{
 }, {
 	routeName: 'leia',
 	name: 'Leia',
-	photo: 'http://www.helloluvvy.com/wp-content/uploads/2015/10/princess-leia-buns_-leia.jpg',
+	photo: 'https://s-media-cache-ak0.pinimg.com/236x/f7/af/ab/f7afabf05f2d828fa4b94745e35102a8.jpg',
 	scores: [5,1,4,4,4,1,2,5,4,1]
 
 }];
